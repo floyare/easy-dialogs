@@ -1,2 +1,2 @@
-export { useModalManager } from './useModalManager';
-export { Modal } from "./Modal";
+export { useDialogManager } from './useDialogManager';
+export { Dialog } from "./Dialog";

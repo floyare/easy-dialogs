@@ -1,4 +1,4 @@
 import { atom } from "jotai";
-import { ModalType } from "./types/ModalTypes";
+import { DialogType } from "./types/DialogTypes";
 
-export const activeModal = atom<ModalType | null>(null)
+export const activeDialog = atom<DialogType | null>(null)
