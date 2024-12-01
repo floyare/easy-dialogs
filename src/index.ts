@@ -1,2 +1,2 @@
 export { useDialogManager } from './useDialogManager';
-export { Dialog } from "./Dialog";
+export { default as Dialog } from './Dialog';
