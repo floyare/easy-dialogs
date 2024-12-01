@@ -1,7 +1,7 @@
 
-# 🪟 modalify
+# 🪟 dialogify
 
-Easy to use, function-based modal manager for React.
+Easy to use, function-based dialogs manager for React.
 
 
 ## Installation
