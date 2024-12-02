@@ -1,5 +1,5 @@
 
-# 🪟 dialogify
+# 🪟 easy-dialogs
 
 Easy to use, function-based dialogs manager for React.
 
@@ -8,20 +8,20 @@ Easy to use, function-based dialogs manager for React.
 
 ```bash
 # yarn
-yarn install dialogify
+yarn install easy-dialogs
 
 # npm
-npm install dialogify
+npm install easy-dialogs
 
 # pnpm
-pnpm install dialogify
+pnpm install easy-dialogs
 ```
     
 ## Usage
 
 #### 1. Import <Dialog /> to your root layout.
 ```jsx
-import { Dialog } from "dialogify"
+import { Dialog } from "easy-dialogs"
 
 function App() {
     return (
@@ -49,7 +49,7 @@ export const dialogs = [
 
 #### 3. Import "useDialogManager()" hook inside react component
 ```jsx
-import { useDialogManager } from "dialogify";
+import { useDialogManager } from "easy-dialogs";
 import { dialogs } from "../libs/dialogs";
 
 const List = () => {
