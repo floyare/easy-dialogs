@@ -7,10 +7,20 @@
         "build": "rollup -c",
         "prepare": "npm run build"
     },
-    "keywords": [ ],
-    "author": "",
+    "keywords": [
+        "react",
+        "modal",
+        "dialogs",
+        "dialog",
+        "react-dialog",
+        "dialog-manager",
+        "jotai",
+        "react-modals",
+        "modal-manager"
+    ],
+    "author": "floyare",
     "license": "ISC",
-    "description": "",
+    "description": "Function based dialogs manager for React",
     "dependencies": {
         "jotai": "^2.10.3",
         "react": "^18.3.1",
