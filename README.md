@@ -19,7 +19,7 @@ pnpm install easy-dialogs
     
 ## Usage
 
-#### 1. Import <Dialog /> to your root layout.
+#### 1. Import <Dialog /> into your root layout.
 ```jsx
 import { Dialog } from "easy-dialogs"
 
@@ -47,7 +47,7 @@ export const dialogs = [
 ]
 ```
 
-#### 3. Import "useDialogManager()" hook inside react component
+#### 3. Import "useDialogManager()" hook inside React component
 ```jsx
 import { useDialogManager } from "easy-dialogs";
 import { dialogs } from "../libs/dialogs";
