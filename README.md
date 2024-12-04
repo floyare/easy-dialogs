@@ -3,6 +3,8 @@
 
 Easy to use, function-based dialogs manager for React.
 
+[View demo](https://easy-dialogs.vercel.app/) / [NPM](https://www.npmjs.com/package/easy-dialogs)
+
 
 ## Installation
 
