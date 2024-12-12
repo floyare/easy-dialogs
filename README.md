@@ -46,7 +46,7 @@ import DialogComponent from "../components/DialogComponent";
 export const dialogs = [
     { id: "test-dialog", component: DialogComponent }
     // Here you can add more dialogs
-]
+] as const
 ```
 
 #### 3. Import "useDialogManager()" hook inside React component
@@ -78,10 +78,17 @@ Dialog components **MUST** return some value. `callDialog()` function awaits for
 
 **Example:**
 ```jsx
-const DialogComponent: React.FC<{ onClose: (result: boolean) => void }> = ({ onClose }) => {
+type FormDialogType = {
+    onClose: (val: Record<string, any>) => void,
+    additionalProps?: {
+        id: string
+    }
+}
+
+const DialogComponent: React.FC<FormDialogType> = ({ onClose, additionalProps }) => {
     return (
         <div>
-            <h1>Example dialog</h1>
+            <h1>Example dialog {additionalProps?.id}</h1>
             <button onClick={() => onClose(true)}>Success!</button>
             <button onClick={() => onClose(false)}>Failure :(</button>
         </div>
