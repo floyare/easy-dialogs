@@ -1,7 +1,7 @@
 
 # 🪟 easy-dialogs
 
-Easy to use, function-based dialogs manager for React.
+Easy to use, function-based dialogs manager with type safety for React.
 
 [View demo](https://easy-dialogs.vercel.app/) / [NPM](https://www.npmjs.com/package/easy-dialogs)
 
@@ -77,15 +77,15 @@ export default List;
 Dialog components **MUST** return some value. `callDialog()` function awaits for the response from the Dialog component.
 
 **Example:**
-```jsx
-type FormDialogType = {
-    onClose: (val: Record<string, any>) => void,
+```tsx
+type ExampleDialogType = {
+    onClose: (val: boolean) => void,
     additionalProps?: {
         id: string
     }
 }
 
-const DialogComponent: React.FC<FormDialogType> = ({ onClose, additionalProps }) => {
+const DialogComponent: React.FC<ExampleDialogType> = ({ onClose, additionalProps }) => {
     return (
         <div>
             <h1>Example dialog {additionalProps?.id}</h1>
