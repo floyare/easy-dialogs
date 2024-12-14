@@ -1,7 +1,7 @@
 
 # 🪟 easy-dialogs
 
-Easy to use, function-based dialogs manager with type safety for React.
+Easy to use, function-based, type safe dialogs manager for React.
 
 [View demo](https://easy-dialogs.vercel.app/) / [NPM](https://www.npmjs.com/package/easy-dialogs)
 
