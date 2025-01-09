@@ -1,12 +1,26 @@
 {
     "name": "easy-dialogs",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "main": "dist/index.js",
     "module": "dist/index.esm.js",
     "types": "dist/index.d.ts",
     "files": [
         "dist"
     ],
+    "keywords": [
+        "react",
+        "modal",
+        "dialogs",
+        "dialog",
+        "react-dialog",
+        "dialog-manager",
+        "jotai",
+        "react-modals",
+        "modal-manager"
+    ],
+    "author": "floyare",
+    "license": "ISC",
+    "description": "Function based dialogs manager for React",
     "sideEffects": false,
     "scripts": {
         "build": "rollup -c",
