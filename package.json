@@ -1,10 +1,9 @@
 {
     "name": "easy-dialogs",
-    "version": "0.1.0",
-    "main": "dist/index.cjs.js",
+    "version": "0.1.1",
+    "main": "dist/index.js",
     "module": "dist/index.esm.js",
     "types": "dist/index.d.ts",
-    "type": "module",
     "files": [
         "dist"
     ],
@@ -13,24 +12,12 @@
         "build": "rollup -c",
         "prepare": "npm run build"
     },
-    "keywords": [
-        "react",
-        "modal",
-        "dialogs",
-        "dialog",
-        "react-dialog",
-        "dialog-manager",
-        "jotai",
-        "react-modals",
-        "modal-manager"
-    ],
-    "author": "floyare",
-    "license": "ISC",
-    "description": "Function based dialogs manager for React",
-    "dependencies": {
-        "jotai": "^2.10.3",
+    "peerDependencies": {
         "react": "^17.0.0 || ^18.0.0",
         "react-dom": "^17.0.0 || ^18.0.0"
+    },
+    "dependencies": {
+        "jotai": "^2.10.3"
     },
     "devDependencies": {
         "@rollup/plugin-commonjs": "^28.0.1",
@@ -40,10 +27,8 @@
         "@types/react-dom": "^18.3.1",
         "rollup": "^4.28.0",
         "rollup-plugin-typescript2": "^0.36.0",
-        "typescript": "^5.7.2"
-    },
-    "peerDependencies": {
-        "react": "^17.0.0 || ^18.0.0",
-        "react-dom": "^17.0.0 || ^18.0.0"
+        "typescript": "^5.7.2",
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0"
     }
 }

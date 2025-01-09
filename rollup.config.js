@@ -7,18 +7,24 @@ export default {
     input: 'src/index.ts',
     output: [
         {
-            file: 'dist/index.cjs.js',
+            file: 'dist/index.js',
             format: 'cjs',
+            exports: 'named',
+            sourcemap: true,
         },
         {
             file: 'dist/index.esm.js',
             format: 'esm',
+            exports: 'named',
+            sourcemap: true,
         },
     ],
     plugins: [
         resolve(),
         commonjs(),
-        typescript(),
+        typescript({
+            useTsconfigDeclarationDir: true,
+        }),
         terser(),
     ],
     external: ['react', 'react-dom', 'jotai'],
