@@ -16,6 +16,15 @@ type InferDialogProps<Dialogs, TId> = Extract<
     : never
     : never;
 
+type InferDialogOnCloseReturnType<Dialogs, TId> = Extract<
+    InferDialogType<Dialogs>,
+    { id: TId }
+> extends { component: React.ComponentType<infer P> }
+    ? P extends { onClose: (result: infer R) => void }
+    ? R
+    : never
+    : never;
+
 export const useDialogManager = <
     Dialogs extends readonly { id: string; component: React.ComponentType<any>; props?: any }[]
 >(
@@ -47,7 +56,7 @@ export const useDialogManager = <
     const callDialog = async <T extends DialogIdType>(
         id: T,
         additionalProps?: InferDialogProps<Dialogs, T>
-    ): Promise<boolean> => {
+    ): Promise<InferDialogOnCloseReturnType<Dialogs, T>> => {
         const Dialog = Dialogs.find((dialog): dialog is InferDialogType<Dialogs> => dialog.id === id);
         if (!Dialog) {
             throw new Error(`Dialog with id "${id}" not found`);

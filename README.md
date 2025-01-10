@@ -73,31 +73,33 @@ const List = () => {
 export default List;
 ```
 
-### ❗ Important
-Dialog components **MUST** return some value. `callDialog()` function awaits for the response from the Dialog component.
+### ❗ Important notes
+  
+  - Dialog components **MUST** return some value. `callDialog()` function awaits for the response from the Dialog component.
 
-**Example:**
-```tsx
-type ExampleDialogType = {
-    onClose: (val: boolean) => void,
-    additionalProps?: {
-        id: string
+    **Example:**
+    ```tsx
+    type ExampleDialogType = {
+        onClose: (val: boolean) => void,
+        additionalProps?: {
+            id: string
+        }
     }
-}
 
-const DialogComponent: React.FC<ExampleDialogType> = ({ onClose, additionalProps }) => {
-    return (
-        <div>
-            <h1>Example dialog {additionalProps?.id}</h1>
-            <button onClick={() => onClose(true)}>Success!</button>
-            <button onClick={() => onClose(false)}>Failure :(</button>
-        </div>
-    );
-}
+    const DialogComponent: React.FC<ExampleDialogType> = ({ onClose, additionalProps }) => {
+        return (
+            <div>
+                <h1>Example dialog {additionalProps?.id}</h1>
+                <button onClick={() => onClose(true)}>Success!</button>
+                <button onClick={() => onClose(false)}>Failure :(</button>
+            </div>
+        );
+    }
 
-export default DialogComponent;
-```
+    export default DialogComponent;
+    ```
 
+  - For **Next.js** users:  `<Dialog />` component **MUST** be rendered on the client.
 
 ## Acknowledgements
 
