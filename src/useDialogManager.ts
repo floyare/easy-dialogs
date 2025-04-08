@@ -5,20 +5,16 @@ import React from 'react';
 type InferDialogIdType<Dialogs> = Dialogs extends readonly { id: infer Id }[] ? Id : never;
 type InferDialogType<Dialogs> = Dialogs extends readonly (infer D)[] ? D : never;
 
-type BaseComponentProps<Dialogs, TId> = Extract<
+type InferDialogProps<Dialogs, TId> = Extract<
     InferDialogType<Dialogs>,
     { id: TId }
-> extends { component: React.ComponentType<infer P> } ? P : never;
-
-type ManagedDialogProps = {
-    onClose?: (result: any) => void;
-    isOpen?: boolean;
-};
-
-type InferDialogProps<Dialogs, TId> = Omit<
-    BaseComponentProps<Dialogs, TId>,
-    keyof ManagedDialogProps
->;
+> extends { component: React.ComponentType<infer P> }
+    ? P extends { additionalProps?: infer A }
+    ? A extends undefined
+    ? Record<string, never>
+    : A
+    : Record<string, never>
+    : never;
 
 type InferDialogOnCloseReturnType<Dialogs, TId> = Extract<
     InferDialogType<Dialogs>,
@@ -87,7 +83,7 @@ export const useDialogManager = <
 
         const finalProps = {
             ...(definitionProps || {}),
-            additionalProps: additionalProps || {}
+            additionalProps: additionalProps || {},
         };
 
         return openDialog<any>(component, finalProps);
