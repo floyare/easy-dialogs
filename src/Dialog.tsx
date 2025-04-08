@@ -1,13 +1,22 @@
 import React from 'react';
-import { activeDialog } from './atoms';
+import { activeDialogs } from './atoms';
 import { useAtom } from 'jotai';
 
 const Dialog: React.FC = () => {
-    const [modal] = useAtom(activeDialog);
-    if (!modal) return null;
+    const [dialogs] = useAtom(activeDialogs);
 
-    const { component: DialogComponent, props } = modal;
-    return <DialogComponent {...props} />;
+    if (!dialogs || dialogs.length === 0) {
+        return null;
+    }
+
+    return (
+        <>
+            {dialogs.map((dialogInstance) => {
+                const { key, component: DialogComponent, props } = dialogInstance;
+                return <DialogComponent key={key} {...props} />;
+            })}
+        </>
+    );
 };
 
 export default Dialog;

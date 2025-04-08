@@ -101,6 +101,9 @@ export default List;
 
   - For **Next.js** users:  `<Dialog />` component **MUST** be rendered on the client.
 
+## Update history
+    - 0.1.4 - Added support for multiple dialogs rendered at once.
+
 ## Acknowledgements
 
  - [Jotai](https://github.com/pmndrs/jotai)

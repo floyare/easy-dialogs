@@ -1,77 +1,97 @@
-import { useAtom } from 'jotai';
-import { activeDialog } from './atoms';
+import { useSetAtom } from 'jotai';
+import { activeDialogs, getNextDialogKeyAtom, ActiveDialogInstance } from './atoms';
+import React from 'react';
 
 type InferDialogIdType<Dialogs> = Dialogs extends readonly { id: infer Id }[] ? Id : never;
-
 type InferDialogType<Dialogs> = Dialogs extends readonly (infer D)[] ? D : never;
 
-type InferDialogProps<Dialogs, TId> = Extract<
+type BaseComponentProps<Dialogs, TId> = Extract<
     InferDialogType<Dialogs>,
     { id: TId }
-> extends { component: React.ComponentType<infer P> }
-    ? P extends { additionalProps?: infer A }
-    ? A extends undefined
-    ? never
-    : A
-    : never
-    : never;
+> extends { component: React.ComponentType<infer P> } ? P : never;
+
+type ManagedDialogProps = {
+    onClose?: (result: any) => void;
+    isOpen?: boolean;
+};
+
+type InferDialogProps<Dialogs, TId> = Omit<
+    BaseComponentProps<Dialogs, TId>,
+    keyof ManagedDialogProps
+>;
 
 type InferDialogOnCloseReturnType<Dialogs, TId> = Extract<
     InferDialogType<Dialogs>,
     { id: TId }
 > extends { component: React.ComponentType<infer P> }
-    ? P extends { onClose: (result: infer R) => void }
+    ? P extends { onClose?: (result: infer R) => void }
     ? R
-    : never
-    : never;
+    : void
+    : void;
 
 export const useDialogManager = <
     Dialogs extends readonly { id: string; component: React.ComponentType<any>; props?: any }[]
 >(
-    Dialogs: Dialogs
+    dialogDefinitions: Dialogs
 ) => {
     type DialogIdType = InferDialogIdType<Dialogs>;
 
-    const [, setDialog] = useAtom(activeDialog);
+    const setDialogs = useSetAtom(activeDialogs);
+    const getNextKey = useSetAtom(getNextDialogKeyAtom);
 
-    const openDialog = <T>(Dialog: InferDialogType<Dialogs>): Promise<T> => {
+    const openDialog = <T>(
+        component: React.ComponentType<any>,
+        props: any
+    ): Promise<T> => {
         return new Promise((resolve) => {
-            setDialog({
-                ...Dialog,
+            const key = getNextKey();
+
+            const handleClose = (result: T) => {
+                setDialogs((prevDialogs) =>
+                    prevDialogs.filter((dialog) => dialog.key !== key)
+                );
+                resolve(result);
+            };
+
+            const newDialogInstance: ActiveDialogInstance = {
+                key,
+                component,
                 props: {
-                    ...Dialog.props,
-                    onClose: (result: T) => {
-                        setDialog(null);
-                        resolve(result);
-                    },
+                    ...props,
+                    onClose: handleClose,
+                    isOpen: true,
                 },
-            });
+            };
+
+            setDialogs((prevDialogs) => [...prevDialogs, newDialogInstance]);
         });
     };
 
-    const closeDialog = () => {
-        setDialog(null);
+    const closeAllDialogs = () => {
+        setDialogs([]);
     };
 
     const callDialog = async <T extends DialogIdType>(
         id: T,
         additionalProps?: InferDialogProps<Dialogs, T>
     ): Promise<InferDialogOnCloseReturnType<Dialogs, T>> => {
-        const Dialog = Dialogs.find((dialog): dialog is InferDialogType<Dialogs> => dialog.id === id);
-        if (!Dialog) {
-            throw new Error(`Dialog with id "${id}" not found`);
+        const dialogDefinition = dialogDefinitions.find(
+            (dialog): dialog is InferDialogType<Dialogs> => dialog.id === id
+        );
+
+        if (!dialogDefinition) {
+            throw new Error(`Dialog with id "${id}" not found in definitions`);
         }
 
-        return openDialog({
-            ...Dialog,
-            props: {
-                ...(Dialog.props || {}),
-                additionalProps: additionalProps
-                    ? { ...additionalProps as Record<string, any> }
-                    : undefined,
-            },
-        });
+        const { component, props: definitionProps } = dialogDefinition;
+
+        const finalProps = {
+            ...(definitionProps || {}),
+            additionalProps: additionalProps || {}
+        };
+
+        return openDialog<any>(component, finalProps);
     };
 
-    return { callDialog, closeDialog };
+    return { callDialog, closeAllDialogs };
 };
