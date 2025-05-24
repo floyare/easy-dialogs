@@ -1,10 +1,12 @@
 import { atom } from "jotai";
 import { getDefaultStore } from "jotai";
+
 export type ActiveDialogInstance = {
     key: number,
     component: React.ComponentType<any>,
     props: any,
-    visualState?: "open" | "closing"
+    visualState?: "open" | "closed",
+    useExitAnimation?: boolean
 }
 
 const nextDialogKeyAtom = atom<number>(0);

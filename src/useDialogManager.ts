@@ -1,6 +1,8 @@
 import { useSetAtom } from 'jotai';
-import { activeDialogs, getNextDialogKeyAtom, ActiveDialogInstance } from './atoms';
+import { activeDialogs, getNextDialogKeyAtom, ActiveDialogInstance, getActiveDialogs } from './atoms';
 import React from 'react';
+
+type DialogElementType = { id: string; component: React.ComponentType<any>; props?: any, useExitAnimation?: boolean }
 
 type InferDialogIdType<Dialogs> = Dialogs extends readonly { id: infer Id }[] ? Id : never;
 type InferDialogType<Dialogs> = Dialogs extends readonly (infer D)[] ? D : never;
@@ -26,7 +28,7 @@ type InferDialogOnCloseReturnType<Dialogs, TId> = Extract<
     : void;
 
 export const useDialogManager = <
-    Dialogs extends readonly { id: string; component: React.ComponentType<any>; props?: any }[]
+    Dialogs extends readonly DialogElementType[]
 >(
     dialogDefinitions: Dialogs
 ) => {
@@ -43,19 +45,46 @@ export const useDialogManager = <
             const key = getNextKey();
 
             const handleClose = (result: T) => {
-                setDialogs((prevDialogs) =>
-                    prevDialogs.filter((dialog) => dialog.key !== key)
+                const useExitAnimation = getActiveDialogs().find(d => d.key === key)?.useExitAnimation ?? false;
+                setDialogs(ds =>
+                    ds.map(d =>
+                        d.key === key
+                            ? {
+                                ...d,
+                                visualState: "closed",
+                                props: { ...d.props }
+                            }
+                            : d
+                    )
                 );
-                resolve(result);
+
+                if (!useExitAnimation) {
+                    setDialogs((prevDialogs) =>
+                        prevDialogs.filter((dialog) => dialog.key !== key)
+                    );
+                }
+
+                resolve(result as T);
             };
+
+            const handleAnimationEnd = () => {
+                setDialogs((prevDialogs) =>
+                    prevDialogs.filter((dialog) =>
+                        dialog.key !== key ||
+                        dialog.visualState !== "closed"
+                    )
+                );
+            }
 
             const newDialogInstance: ActiveDialogInstance = {
                 key,
                 component,
+                visualState: "open",
+                useExitAnimation: props?.useExitAnimation ?? false,
                 props: {
                     ...props,
                     onClose: handleClose,
-                    isOpen: true,
+                    onAnimationEnd: handleAnimationEnd,
                 },
             };
 
@@ -83,6 +112,7 @@ export const useDialogManager = <
 
         const finalProps = {
             ...(definitionProps || {}),
+            useExitAnimation: dialogDefinition.useExitAnimation,
             additionalProps: additionalProps || {},
         };
 

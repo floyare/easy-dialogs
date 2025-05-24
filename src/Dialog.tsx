@@ -12,8 +12,16 @@ const Dialog: React.FC = () => {
     return (
         <>
             {dialogs.map((dialogInstance) => {
-                const { key, component: DialogComponent, props } = dialogInstance;
-                return <DialogComponent key={key} {...props} />;
+                const { key, component: DialogComponent, visualState, props } = dialogInstance;
+                const isClosing = visualState === 'closed';
+
+                return (
+                    <DialogComponent
+                        key={key}
+                        {...props}
+                        {...{ ["data-state"]: isClosing ? 'closed' : undefined }}
+                    />
+                );
             })}
         </>
     );
