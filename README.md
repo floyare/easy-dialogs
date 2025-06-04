@@ -135,6 +135,7 @@ export default List;
   - For **Next.js** users:  `<Dialog />` component **MUST** be rendered on the client.
 
 ## Update history
+    - 0.1.7 - Added `dialogKeyId` property in Dialog instance object
     - 0.1.6:
         - Added support for dialog exit animations
         - Added 'getActiveDialogs()' export

@@ -6,7 +6,8 @@ export type ActiveDialogInstance = {
     component: React.ComponentType<any>,
     props: any,
     visualState?: "open" | "closed",
-    useExitAnimation?: boolean
+    useExitAnimation?: boolean,
+    dialogKeyId?: any,
 }
 
 const nextDialogKeyAtom = atom<number>(0);

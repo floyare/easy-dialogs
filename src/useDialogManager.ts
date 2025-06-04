@@ -76,13 +76,15 @@ export const useDialogManager = <
                 );
             }
 
+            const { dialogKeyId, ...restProps } = props || {};
             const newDialogInstance: ActiveDialogInstance = {
                 key,
                 component,
                 visualState: "open",
                 useExitAnimation: props?.useExitAnimation ?? false,
+                dialogKeyId: props.dialogKeyId,
                 props: {
-                    ...props,
+                    ...restProps,
                     onClose: handleClose,
                     onAnimationEnd: handleAnimationEnd,
                 },
@@ -114,6 +116,7 @@ export const useDialogManager = <
             ...(definitionProps || {}),
             useExitAnimation: dialogDefinition.useExitAnimation,
             additionalProps: additionalProps || {},
+            dialogKeyId: id
         };
 
         return openDialog<any>(component, finalProps);
