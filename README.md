@@ -42,11 +42,12 @@ export default App
 #### 2. Create an array with dialogs list
 ```typescript
 import DialogComponent from "../components/DialogComponent";
+import { defineDialogs } from "easy-dialogs";
 
-export const dialogs = [
+export const dialogs = defineDialogs([
     { id: "test-dialog", component: DialogComponent }
     // Here you can add more dialogs
-] as const
+] as const)
 ```
 
 #### 3. Import "useDialogManager()" hook inside React component
@@ -101,10 +102,10 @@ export default List;
   - To handle **Exit Animations** in your dialog component, first add the `useExitAnimation: true` property in dialogs list.
 
     ```tsx
-    export const dialogs = [
+    export const dialogs = defineDialogs([
         { id: "test-dialog", component: DialogComponent, useExitAnimation: true }
         // Here you can add more dialogs
-    ] as const
+    ] as const)
     ```
 
     Then, in your dialog component you need to set the `data-state` property and the `onAnimationEnd()` function and pass it into the dialog parent.
@@ -135,6 +136,10 @@ export default List;
   - For **Next.js** users:  `<Dialog />` component **MUST** be rendered on the client.
 
 ## Update history
+    - 0.1.8:
+         - Added `defineDialogs()` function for type safety
+         - Added minor component rendering optimization
+         - Bumped React version to v19
     - 0.1.7 - Added `dialogKeyId` property in Dialog instance object
     - 0.1.6:
         - Added support for dialog exit animations
