@@ -2,7 +2,16 @@ import { useSetAtom } from 'jotai';
 import { activeDialogs, getNextDialogKeyAtom, ActiveDialogInstance, getActiveDialogs } from './atoms';
 import React from 'react';
 
-type DialogElementType = { id: string; component: React.ComponentType<any>; props?: any, useExitAnimation?: boolean }
+export type DialogElementType = {
+    id: string;
+    component: React.ComponentType<any>;
+    props?: any;
+    useExitAnimation?: boolean
+}
+
+export const defineDialogs = <const T extends readonly DialogElementType[]>(
+    dialogs: T | readonly DialogElementType[]
+): T => dialogs as T;
 
 type InferDialogIdType<Dialogs> = Dialogs extends readonly { id: infer Id }[] ? Id : never;
 type InferDialogType<Dialogs> = Dialogs extends readonly (infer D)[] ? D : never;
