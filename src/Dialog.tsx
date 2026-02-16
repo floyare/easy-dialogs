@@ -1,9 +1,21 @@
-import React from 'react';
-import { activeDialogs } from './atoms';
-import { useAtom } from 'jotai';
+import React, { memo } from 'react';
+import { activeDialogs, ActiveDialogInstance } from './atoms';
+import { useAtomValue } from 'jotai';
+
+const DialogItem = memo(({ dialogInstance }: { dialogInstance: ActiveDialogInstance }) => {
+    const { component: DialogComponent, visualState, props } = dialogInstance;
+    const isClosing = visualState === 'closed';
+
+    return (
+        <DialogComponent
+            {...props}
+            data-state={isClosing ? 'closed' : undefined}
+        />
+    );
+});
 
 const Dialog: React.FC = () => {
-    const [dialogs] = useAtom(activeDialogs);
+    const dialogs = useAtomValue(activeDialogs);
 
     if (!dialogs || dialogs.length === 0) {
         return null;
@@ -11,18 +23,9 @@ const Dialog: React.FC = () => {
 
     return (
         <>
-            {dialogs.map((dialogInstance) => {
-                const { key, component: DialogComponent, visualState, props } = dialogInstance;
-                const isClosing = visualState === 'closed';
-
-                return (
-                    <DialogComponent
-                        key={key}
-                        {...props}
-                        {...{ ["data-state"]: isClosing ? 'closed' : undefined }}
-                    />
-                );
-            })}
+            {dialogs.map((dialogInstance) => (
+                <DialogItem key={dialogInstance.key} dialogInstance={dialogInstance} />
+            ))}
         </>
     );
 };
