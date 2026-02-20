@@ -23,8 +23,12 @@
     "description": "Function based dialogs manager for React",
     "sideEffects": false,
     "scripts": {
-        "build": "rollup -c",
-        "prepare": "npm run build"
+        "build": "vitest run --typecheck && rollup -c",
+        "prepare": "npm run build",
+        "test": "vitest",
+        "test:run": "vitest run",
+        "test:type": "tsc --noEmit",
+        "test:all": "vitest run --typecheck"
     },
     "peerDependencies": {
         "react": "^18.0.0 || ^19.0.0",
@@ -37,12 +41,15 @@
         "@rollup/plugin-commonjs": "^28.0.1",
         "@rollup/plugin-node-resolve": "^15.3.0",
         "@rollup/plugin-terser": "^0.4.4",
+        "@testing-library/react": "^16.3.2",
         "@types/react": "^19.0.0",
         "@types/react-dom": "^19.0.0",
+        "jsdom": "^28.1.0",
         "react": "^19.2.4",
         "react-dom": "^19.2.4",
         "rollup": "^4.28.0",
         "rollup-plugin-typescript2": "^0.36.0",
-        "typescript": "^5.7.2"
+        "typescript": "^5.7.2",
+        "vitest": "^4.0.18"
     }
 }
